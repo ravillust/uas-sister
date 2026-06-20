@@ -1,0 +1,9 @@
+{
+  "topic": "demo.logs",
+  "event_id": "evt-001",
+  "timestamp": "2025-01-01T00:00:00Z",
+  "source": "demo",
+  "payload": {
+    "msg": "halo"
+  }
+}
