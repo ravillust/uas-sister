@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Daftar Isi
+## Daftar Isi
 
 - [Ringkasan Sistem](#ringkasan-sistem)
 - [Arsitektur](#arsitektur)
@@ -19,7 +19,7 @@
 
 ---
 
-## 📖 Ringkasan Sistem
+## Ringkasan Sistem
 
 Sistem ini mengimplementasikan sebuah Pub-Sub log aggregator yang berjalan dalam Docker Compose dengan 4 layanan utama:
 
@@ -29,17 +29,17 @@ Sistem ini mengimplementasikan sebuah Pub-Sub log aggregator yang berjalan dalam
 4. **Storage (PostgreSQL)**: Persistent dedup store dengan UNIQUE constraint
 
 **Karakteristik Utama:**
-- ✅ **Idempotency**: Event (topic, event_id) hanya diproses 1x meski diterima berkali-kali
-- ✅ **Deduplication**: UNIQUE constraint + ON CONFLICT DO NOTHING untuk atomicity
-- ✅ **Transaksi**: Semua operasi dalam transaction boundary untuk consistency
-- ✅ **Konkurensi**: Multi-worker consumer paralel tanpa race condition
-- ✅ **Persistensi**: Named volumes survive docker compose down/up
-- ✅ **At-least-once**: Publisher mengirim duplikat; sistem tetap konsisten
-- ✅ **Observability**: Health checks, /stats endpoint, audit logging
+- **Idempotency**: Event (topic, event_id) hanya diproses 1x meski diterima berkali-kali
+- **Deduplication**: UNIQUE constraint + ON CONFLICT DO NOTHING untuk atomicity
+- **Transaksi**: Semua operasi dalam transaction boundary untuk consistency
+- **Konkurensi**: Multi-worker consumer paralel tanpa race condition
+- **Persistensi**: Named volumes survive docker compose down/up
+- **At-least-once**: Publisher mengirim duplikat; sistem tetap konsisten
+- **Observability**: Health checks, /stats endpoint, audit logging
 
 ---
 
-## 🏗️ Arsitektur
+## Arsitektur
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -88,7 +88,7 @@ Port Exposure:
 
 ---
 
-## 📦 Persyaratan
+## Persyaratan
 
 - **Docker Desktop** (Windows/Mac/Linux)
 - **Docker Compose** v2.0+
@@ -97,7 +97,7 @@ Port Exposure:
 
 ---
 
-## 🔧 Setup & Build
+## Setup & Build
 
 ### 1. Clone Repository (or navigate to folder)
 
@@ -125,7 +125,7 @@ Building publisher
 
 ---
 
-## 🚀 Menjalankan Sistem
+## Menjalankan Sistem
 
 ### Start All Services
 
@@ -184,7 +184,7 @@ docker compose down -v
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### 1. Health Check
 
@@ -321,7 +321,7 @@ curl -s http://localhost:8080/stats
 
 ---
 
-## 🧪 Menjalankan Tests
+## Menjalankan Tests
 
 ### Prasyarat
 
@@ -340,19 +340,19 @@ BASE_URL=http://localhost:8080 pytest -v
 
 ### Test Coverage (16 tests)
 
-✅ Health checks (/healthz, /readyz)
-✅ Schema validation (valid/invalid events)
-✅ Deduplication (send 3x same → only 1 processed)
-✅ Idempotency across modes
-✅ Concurrency (30 parallel requests → 1 processed, 29 duplicate)
-✅ Batch atomic (50 events in transaction)
-✅ GET /events consistency
-✅ GET /stats monotonic increase
-✅ Duplicate counting
-✅ Async eventually processed
-✅ Multi-topic stats
-✅ Stress test (300 events)
-✅ Dan lainnya...
+Health checks (/healthz, /readyz)
+Schema validation (valid/invalid events)
+Deduplication (send 3x same → only 1 processed)
+Idempotency across modes
+Concurrency (30 parallel requests → 1 processed, 29 duplicate)
+Batch atomic (50 events in transaction)
+GET /events consistency
+GET /stats monotonic increase
+Duplicate counting
+Async eventually processed
+Multi-topic stats
+Stress test (300 events)
+Dan lainnya...
 
 ### Run Specific Test
 
@@ -362,10 +362,10 @@ BASE_URL=http://localhost:8080 pytest -v tests/test_aggregator.py::test_concurre
 
 ---
 
-## 🎥 Demo & Video
+## Demo & Video
 
 **Link Video Demo (YouTube):**
-> [TBA - Upload setelah recording selesai]
+> https://youtu.be/DA5hBB0iSJ8
 
 **Durasi:** 25+ menit
 
@@ -375,17 +375,17 @@ BASE_URL=http://localhost:8080 pytest -v tests/test_aggregator.py::test_concurre
 3. Startup (docker compose up)
 4. Health checks (/healthz, /readyz)
 5. Single event publish & retrieve
-6. **Dedup test** (send 3x same → only 1 processed) ⭐
+6. **Dedup test** (send 3x same → only 1 processed)
 7. Batch atomic (50 events in one transaction)
-8. **Concurrency test** (30 parallel requests → 1 processed, 29 duplicate) ⭐⭐
+8. **Concurrency test** (30 parallel requests → 1 processed, 29 duplicate)
 9. Stats consistency before/after
-10. **Crash/restart persistence** (data survives!) ⭐⭐⭐
+10. **Crash/restart persistence** (data survives!)
 11. Dedup after restart (no reprocessing)
 12. Security & observability
 
 ---
 
-## 🎯 Asumsi & Design Decision
+## Asumsi & Design Decision
 
 ### Asumsi Desain
 
@@ -477,7 +477,7 @@ WHERE id = 1
 
 ---
 
-## 🔗 Keterkaitan ke Bab 1-13
+## Keterkaitan ke Bab 1-13
 
 | Bab | Topik | Implementasi |
 |-----|-------|-----------------|
@@ -492,7 +492,7 @@ WHERE id = 1
 
 ---
 
-## 📊 Metrik & Performa
+## Metrik & Performa
 
 **Publisher Output (20,000 events + 30% duplikat):**
 
@@ -514,20 +514,20 @@ Queue Pending: 0 (all processed)
 ```
 Processed: 1
 Duplicate: 29
-Consistency: ✅ PASS (no race condition, no double-process)
+Consistency: PASS (no race condition, no double-process)
 ```
 
 **Persistence Test (crash/restart):**
 
 ```
 Before crash: 26,001 unique events in DB
-After restart: 26,001 unique events still there ✅
-Reprocessing: 0 (dedup store prevented it) ✅
+After restart: 26,001 unique events still there
+Reprocessing: 0 (dedup store prevented it) 
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Services not healthy
 
@@ -573,7 +573,7 @@ Should show:
 
 ---
 
-## 📝 Struktur Folder
+## Struktur Folder
 
 ```
 uas-sistem-terdistribusi/
@@ -598,7 +598,7 @@ uas-sistem-terdistribusi/
 
 ---
 
-## 📚 Referensi
+## Referensi
 
 **Buku Utama:**
 - Coulouris, G., Dollimore, J., Kindberg, T., & Blair, G. (2011). Distributed systems: Concepts and design (5th ed.). Addison-Wesley.
@@ -612,7 +612,7 @@ uas-sistem-terdistribusi/
 
 ---
 
-## 📄 Lisensi
+## Lisensi
 
 Individual coursework - UAS Sistem Terdistribusi
 
@@ -623,4 +623,3 @@ Individual coursework - UAS Sistem Terdistribusi
 
 ---
 
-Untuk pertanyaan atau clarification, silakan buka issue di GitHub repository ini.
